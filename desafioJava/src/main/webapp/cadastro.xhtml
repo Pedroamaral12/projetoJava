@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Cadastro de Usuário</title>
+</h:head>
+<h:body>
+	<h:form id="formCadastro">
+		<p:panel header="Cadastro de Usuário">
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Nome:" />
+				<p:inputText value="#{usuarioController.usuario.nome}"
+					required="true" />
+
+				<h:outputLabel value="Email:" />
+				<p:inputText value="#{usuarioController.usuario.email}"
+					required="true" />
+
+				<h:outputLabel value="CPF:" />
+				<p:inputText value="#{usuarioController.usuario.cpf}"
+					required="true" />
+
+				<h:outputLabel value="Perfil:" />
+				<p:selectOneMenu value="#{usuarioController.usuario.perfil}">
+					<p:selectItems value="#{usuarioController.perfis}" var="perfil"
+						itemValue="#{perfil}" itemLabel="#{perfil.tipo}" />
+				</p:selectOneMenu>
+
+				<h:outputLabel value="Endereços:" />
+				<p:selectCheckboxMenu value="#{usuarioController.usuario.enderecos}">
+					<p:selectItems value="#{usuarioController.enderecos}"
+						var="endereco" itemValue="#{endereco}" itemLabel="#{endereco.rua}" />
+				</p:selectCheckboxMenu>
+			</h:panelGrid>
+			<p:commandButton value="Salvar" action="#{usuarioController.salvar}"
+				update=":formCadastro" />
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

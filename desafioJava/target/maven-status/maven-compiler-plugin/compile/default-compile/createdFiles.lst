@@ -1,0 +1,14 @@
+com\desafioJava\facade\UsuarioFacade.class
+com\desafioJava\service\UsuarioService.class
+com\desafioJava\dao\UsuarioDAO.class
+com\desafioJava\util\HibernateUtil.class
+com\desafioJava\facade\PerfilFacade.class
+com\desafioJava\service\EnderecoService.class
+com\desafioJava\model\Endereco.class
+com\desafioJava\facade\EnderecoFacade.class
+com\desafioJava\model\Perfil.class
+com\desafioJava\service\PerfilService.class
+com\desafioJava\controller\UsuarioController.class
+com\desafioJava\dao\PerfilDAO.class
+com\desafioJava\model\Usuario.class
+com\desafioJava\dao\EnderecoDAO.class
