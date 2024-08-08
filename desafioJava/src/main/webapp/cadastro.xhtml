@@ -8,6 +8,14 @@
 	<title>Cadastro de Usuário</title>
 </h:head>
 <h:body>
+	<h:form enctype="multipart/form-data">
+		<p:fileUpload value="#{usuarioController.file}" mode="advanced"
+			dragDropSupport="false" update="messages" sizeLimit="1048576"
+			fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+		<p:commandButton value="Salvar" action="#{usuarioController.salvar}"
+			ajax="false" />
+		<p:messages id="messages" showDetail="true" autoUpdate="true" />
+	</h:form>
 	<h:form id="formCadastro">
 		<p:panel header="Cadastro de Usuário">
 			<h:panelGrid columns="2" cellpadding="5">

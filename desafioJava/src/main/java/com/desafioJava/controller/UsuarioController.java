@@ -8,9 +8,18 @@ import com.desafioJava.model.Perfil;
 import com.desafioJava.model.Endereco;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import org.primefaces.model.file.UploadedFile;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +38,8 @@ public class UsuarioController implements Serializable {
 	private List<Perfil> perfis;
 	private List<Endereco> enderecos;
 
+	private UploadedFile file;
+
 	@PostConstruct
 	public void init() {
 		usuarioFacade = new UsuarioFacade();
@@ -43,6 +54,18 @@ public class UsuarioController implements Serializable {
 	}
 
 	public void salvar() {
+		if (file != null) {
+			try (InputStream input = file.getInputStream()) {
+				Files.copy(input, Paths.get("caminho_para_salvar_o_arquivo/" + file.getFileName()),
+						StandardCopyOption.REPLACE_EXISTING);
+				FacesMessage message = new FacesMessage("Sucesso", file.getFileName() + " foi carregado.");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} catch (IOException e) {
+				FacesMessage message = new FacesMessage("Falha", "Erro ao carregar " + file.getFileName());
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+		}
+
 		if (usuario.getId() == null) {
 			usuarioFacade.salvarUsuario(usuario);
 		} else {
@@ -70,6 +93,8 @@ public class UsuarioController implements Serializable {
 		this.usuario.getEnderecos().add(novoEndereco);
 		this.novoEndereco = new Endereco();
 	}
+
+	// Getters e Setters
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -117,5 +142,13 @@ public class UsuarioController implements Serializable {
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
 	}
 }
