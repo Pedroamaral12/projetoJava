@@ -11,6 +11,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Named
@@ -22,6 +23,8 @@ public class UsuarioController implements Serializable {
 	private PerfilFacade perfilFacade;
 	private EnderecoFacade enderecoFacade;
 	private Usuario usuario;
+	private Usuario usuarioSelecionado;
+	private Endereco novoEndereco;
 	private List<Usuario> usuarios;
 	private List<Perfil> perfis;
 	private List<Endereco> enderecos;
@@ -32,6 +35,8 @@ public class UsuarioController implements Serializable {
 		perfilFacade = new PerfilFacade();
 		enderecoFacade = new EnderecoFacade();
 		usuario = new Usuario();
+		usuario.setEnderecos(new ArrayList<>());
+		novoEndereco = new Endereco();
 		usuarios = usuarioFacade.buscarTodos();
 		perfis = perfilFacade.buscarTodosPerfis();
 		enderecos = enderecoFacade.buscarTodosEnderecos();
@@ -45,6 +50,7 @@ public class UsuarioController implements Serializable {
 		}
 		usuarios = usuarioFacade.buscarTodos();
 		usuario = new Usuario();
+		usuario.setEnderecos(new ArrayList<>());
 	}
 
 	public void editar(Usuario usuario) {
@@ -56,8 +62,13 @@ public class UsuarioController implements Serializable {
 		usuarios = usuarioFacade.buscarTodos();
 	}
 
-	public void detalhar(Usuario usuario) {
-		this.usuario = usuario;
+	public void prepararDetalhe(Usuario usuario) {
+		this.usuarioSelecionado = usuario;
+	}
+
+	public void adicionarEndereco() {
+		this.usuario.getEnderecos().add(novoEndereco);
+		this.novoEndereco = new Endereco();
 	}
 
 	public Usuario getUsuario() {
@@ -66,6 +77,22 @@ public class UsuarioController implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Usuario getUsuarioSelecionado() {
+		return usuarioSelecionado;
+	}
+
+	public void setUsuarioSelecionado(Usuario usuarioSelecionado) {
+		this.usuarioSelecionado = usuarioSelecionado;
+	}
+
+	public Endereco getNovoEndereco() {
+		return novoEndereco;
+	}
+
+	public void setNovoEndereco(Endereco novoEndereco) {
+		this.novoEndereco = novoEndereco;
 	}
 
 	public List<Usuario> getUsuarios() {

@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 	<title>Pesquisa de Usuários</title>
 </h:head>
@@ -11,18 +12,20 @@
 		<p:panel header="Pesquisa de Usuários">
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel for="nome" value="Nome:" />
-				<p:inputText id="nome" value="#{usuarioController.usuario.nome}" />
+				<p:inputText id="nome" value="#{usuarioController.filtro.nome}" />
 
 				<h:outputLabel for="cpf" value="CPF:" />
-				<p:inputText id="cpf" value="#{usuarioController.usuario.cpf}" />
+				<p:inputText id="cpf" value="#{usuarioController.filtro.cpf}" />
 
 				<h:outputLabel for="periodo" value="Período de Cadastro:" />
-				<p:calendar id="periodo"
-					value="#{usuarioController.usuario.dataCadastro}" mode="range" />
+				<p:calendar id="periodo" value="#{usuarioController.filtro.periodo}"
+					mode="range" />
 			</h:panelGrid>
 			<p:commandButton value="Pesquisar"
 				action="#{usuarioController.pesquisar}"
 				update=":formPesquisa:tabelaUsuarios" />
+			<p:commandButton value="Cadastrar novo usuário"
+				action="cadastro.xhtml?faces-redirect=true" style="margin-top:10px;" />
 		</p:panel>
 		<p:dataTable id="tabelaUsuarios" value="#{usuarioController.usuarios}"
 			var="usuario">
@@ -33,11 +36,9 @@
 				<h:outputText value="#{usuario.cpf}" />
 			</p:column>
 			<p:column headerText="Ações">
-				<p:column>
-					<p:commandButton value="Detalhar"
-						action="#{usuarioController.detalhar(usuario)}"
-						update=":formDetalhe" />
-				</p:column>
+				<p:commandButton value="Detalhar"
+					actionListener="#{usuarioController.prepararDetalhe(usuario)}"
+					oncomplete="PF('detalheDialog').show()" update=":formDetalhe" />
 				<p:commandButton value="Editar"
 					action="#{usuarioController.editar(usuario)}"
 					update=":formCadastro" />
@@ -48,27 +49,30 @@
 		</p:dataTable>
 	</h:form>
 	<h:form id="formDetalhe">
-		<p:panel header="Detalhes do Usuário">
+		<p:dialog header="Detalhes do Usuário" widgetVar="detalheDialog"
+			modal="true" resizable="false" width="300">
 			<h:panelGrid columns="2" cellpadding="5">
 				<h:outputLabel value="Nome:" />
-				<h:outputText value="#{usuarioController.usuario.nome}" />
+				<h:outputText value="#{usuarioController.usuarioSelecionado.nome}" />
 
 				<h:outputLabel value="Email:" />
-				<h:outputText value="#{usuarioController.usuario.email}" />
+				<h:outputText value="#{usuarioController.usuarioSelecionado.email}" />
 
 				<h:outputLabel value="CPF:" />
-				<h:outputText value="#{usuarioController.usuario.cpf}" />
+				<h:outputText value="#{usuarioController.usuarioSelecionado.cpf}" />
 
 				<h:outputLabel value="Perfil:" />
-				<h:outputText value="#{usuarioController.usuario.perfil.nome}" />
+				<h:outputText
+					value="#{usuarioController.usuarioSelecionado.perfil.tipo}" />
 
 				<h:outputLabel value="Endereços:" />
-				<ui:repeat value="#{usuarioController.usuario.enderecos}"
+				<ui:repeat value="#{usuarioController.usuarioSelecionado.enderecos}"
 					var="endereco">
 					<h:outputText value="#{endereco.rua}, #{endereco.cidade}" />
+					<br />
 				</ui:repeat>
 			</h:panelGrid>
-		</p:panel>
+		</p:dialog>
 	</h:form>
 </h:body>
 </html>
