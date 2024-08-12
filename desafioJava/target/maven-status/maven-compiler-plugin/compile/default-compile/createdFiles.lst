@@ -12,3 +12,4 @@ com\desafioJava\controller\UsuarioController.class
 com\desafioJava\dao\PerfilDAO.class
 com\desafioJava\model\Usuario.class
 com\desafioJava\dao\EnderecoDAO.class
+com\desafioJava\util\EntityManagerUtil.class

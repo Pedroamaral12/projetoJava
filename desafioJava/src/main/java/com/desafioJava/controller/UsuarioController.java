@@ -37,6 +37,7 @@ public class UsuarioController implements Serializable {
 	private List<Usuario> usuarios;
 	private List<Perfil> perfis;
 	private List<Endereco> enderecos;
+	
 
 	private UploadedFile file;
 
@@ -93,8 +94,6 @@ public class UsuarioController implements Serializable {
 		this.usuario.getEnderecos().add(novoEndereco);
 		this.novoEndereco = new Endereco();
 	}
-
-	// Getters e Setters
 
 	public Usuario getUsuario() {
 		return usuario;

@@ -2,10 +2,12 @@ package com.desafioJava.dao;
 
 import com.desafioJava.model.Usuario;
 import com.desafioJava.util.HibernateUtil;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
+
 import java.util.List;
 
 public class UsuarioDAO {
@@ -66,19 +68,19 @@ public class UsuarioDAO {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
 	public List<Usuario> buscarPorNomeCriteria(String nome) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			Criteria criteria = session.createCriteria(Usuario.class);
-			criteria.add(Restrictions.like("nome", "%" + nome + "%"));
-			return criteria.list();
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<Usuario> criteriaQuery = builder.createQuery(Usuario.class);
+			Root<Usuario> root = criteriaQuery.from(Usuario.class);
+			criteriaQuery.select(root).where(builder.like(root.get("nome"), "%" + nome + "%"));
+			return session.createQuery(criteriaQuery).getResultList();
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Usuario> buscarTodos() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("from Usuario").list();
+			return session.createQuery("from Usuario", Usuario.class).getResultList();
 		}
 	}
 }

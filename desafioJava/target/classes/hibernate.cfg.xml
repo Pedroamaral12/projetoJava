@@ -13,8 +13,8 @@
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>
 
-		<mapping class="com.desafioJava.modelo.Usuario" />
-		<mapping class="com.desafioJava.modelo.Perfil" />
-		<mapping class="com.desafioJava.modelo.Endereco" />
+		<mapping class="com.desafioJava.model.Usuario" />
+		<mapping class="com.desafioJava.model.Perfil" />
+		<mapping class="com.desafioJava.model.Endereco" />
 	</session-factory>
 </hibernate-configuration>

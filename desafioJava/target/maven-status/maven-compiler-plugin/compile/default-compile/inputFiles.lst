@@ -1,14 +1,15 @@
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\dao\EnderecoDAO.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\facade\PerfilFacade.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\dao\UsuarioDAO.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\model\Endereco.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\service\EnderecoService.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\service\PerfilService.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\controller\UsuarioController.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\facade\EnderecoFacade.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\util\HibernateUtil.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\model\Usuario.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\facade\UsuarioFacade.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\dao\PerfilDAO.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\service\UsuarioService.java
-C:\Desenvolvimento\projetoJava\projeto\desafioJava\src\main\java\com\desafioJava\model\Perfil.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\controller\UsuarioController.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\dao\EnderecoDAO.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\dao\PerfilDAO.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\dao\UsuarioDAO.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\facade\EnderecoFacade.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\facade\PerfilFacade.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\facade\UsuarioFacade.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\model\Endereco.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\model\Perfil.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\model\Usuario.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\service\EnderecoService.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\service\PerfilService.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\service\UsuarioService.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\util\EntityManagerUtil.java
+C:\Desenvolvimento\Nova pasta\projetoJava\desafioJava\src\main\java\com\desafioJava\util\HibernateUtil.java
