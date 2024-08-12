@@ -8,6 +8,15 @@
 	<title>Pesquisa de Usuários</title>
 </h:head>
 <h:body>
+	<h:form enctype="multipart/form-data">
+		<p:fileUpload value="#{usuarioController.file}" mode="advanced"
+			dragDropSupport="false" update="messages" sizeLimit="1048576"
+			fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+		<p:commandButton value="Salvar" action="#{usuarioController.salvar}"
+			ajax="false" />
+		<p:messages id="messages" showDetail="true" autoUpdate="true" />
+	</h:form>
+
 	<h:form id="formPesquisa">
 		<p:panel header="Pesquisa de Usuários">
 			<h:panelGrid columns="2" cellpadding="5">

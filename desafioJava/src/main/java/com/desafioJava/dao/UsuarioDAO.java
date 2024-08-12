@@ -6,8 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
-import javax.persistence.Query;
-
 import java.util.List;
 
 public class UsuarioDAO {
@@ -59,10 +57,10 @@ public class UsuarioDAO {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Usuario> buscarPorNomeJPQL(String nome) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			Query query = session.createQuery("FROM Usuario WHERE nome LIKE :nome");
+			org.hibernate.query.Query<Usuario> query = session.createQuery("FROM Usuario WHERE nome LIKE :nome",
+					Usuario.class);
 			query.setParameter("nome", "%" + nome + "%");
 			return query.getResultList();
 		}

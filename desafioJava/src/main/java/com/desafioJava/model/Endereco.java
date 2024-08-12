@@ -2,7 +2,7 @@ package com.desafioJava.model;
 
 import java.util.List;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Endereco {
