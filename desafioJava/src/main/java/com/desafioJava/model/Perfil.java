@@ -1,41 +1,15 @@
 package com.desafioJava.model;
 
-import jakarta.persistence.*;
-import java.util.List;
+public enum Perfil {
+	ADM("Administrador"), GERENTE("Gerente"), USUARIO("Usuário");
 
-@Entity
-public class Perfil {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String descricao;
 
-	private String nome;
-
-	@OneToMany(mappedBy = "perfil")
-	private List<Usuario> usuarios;
-
-	public Long getId() {
-		return id;
+	Perfil(String descricao) {
+		this.descricao = descricao;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public String getDescricao() {
+		return descricao;
 	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
 }

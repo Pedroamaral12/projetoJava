@@ -1,89 +1,105 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Pesquisa de Usuários</title>
 </h:head>
-<h:body>
-	<h:form enctype="multipart/form-data">
-		<p:fileUpload value="#{usuarioController.file}" mode="advanced"
-			dragDropSupport="false" update="messages" sizeLimit="1048576"
-			fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-		<p:commandButton value="Salvar" action="#{usuarioController.salvar}"
-			ajax="false" />
-		<p:messages id="messages" showDetail="true" autoUpdate="true" />
-	</h:form>
-
-	<!-- 
+<h:body
+	style="display: flex;
+    justify-content: center;
+    margin-top: 100px;">
 	<h:form id="formPesquisa">
 		<p:panel header="Pesquisa de Usuários">
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel for="nome" value="Nome:" />
-				<p:inputText id="nome" value="#{usuarioController.filtro.nome}" />
+			<p:panelGrid columns="2" style="margin-bottom:10px">
+				<p:outputLabel value="Nome:" />
+				<p:inputText id="nome" value="#{usuarioController.nomeFiltro}" />
 
-				<h:outputLabel for="cpf" value="CPF:" />
-				<p:inputText id="cpf" value="#{usuarioController.filtro.cpf}" />
+				<p:outputLabel value="CPF:" />
+				<p:inputText id="cpf" value="#{usuarioController.cpfFiltro}" />
 
-				<h:outputLabel for="periodo" value="Período de Cadastro:" />
-				<p:calendar id="periodo" value="#{usuarioController.filtro.periodo}"
-					mode="range" />
-			</h:panelGrid>
-			<p:commandButton value="Pesquisar"
-				action="#{usuarioController.pesquisar}"
-				update=":formPesquisa:tabelaUsuarios" />
-			<p:commandButton value="Cadastrar novo usuário"
-				action="cadastro.xhtml?faces-redirect=true" style="margin-top:10px;" />
+				<p:outputLabel value="Período de Cadastro:" />
+				<div></div>
+				<p:calendar id="dataInicio"
+					value="#{usuarioController.dataInicioFiltro}" pattern="dd/MM/yyyy"
+					label="Selecione a data de início."
+					alt="Selecione a data de início." />
+				<p:calendar id="dataFim" value="#{usuarioController.dataFimFiltro}"
+					label="Selecione a data de fim." alt="Selecione a data de fim."
+					pattern="dd/MM/yyyy" />
+			</p:panelGrid>
+			<section style="display: flex; justify-content: space-between;">
+				<div>
+					<p:commandButton value="Pesquisar" style="margin: 5px"
+						action="#{usuarioController.pesquisar}"
+						update=":formPesquisa:tabelaUsuarios" />
+					<p:commandButton value="Limpar" style="margin: 5px"
+						action="#{usuarioController.pesquisar}" update="@this" />
+				</div>
+				<div>
+					<p:commandButton value="Cadastrar Usuário" style="margin: 5px"
+						icon="pi pi-plus" action="cadastro" ajax="false" />
+				</div>
+			</section>
+			<p:dataTable id="tabelaUsuarios"
+				value="#{usuarioController.usuarios}" var="usuario"
+				selectionMode="single"
+				selection="#{usuarioController.usuarioSelecionado}"
+				rowKey="#{usuario.id}" paginator="true" rows="10"
+				emptyMessage="Nenhum usuário encontrado">
+				<p:column headerText="Nome">
+                    #{usuario.nome}
+                </p:column>
+				<p:column headerText="CPF">
+                    #{usuario.cpf}
+                </p:column>
+				<p:column headerText="Email">
+                    #{usuario.email}
+                </p:column>
+				<p:column headerText="Perfil">
+                    #{usuario.perfil.nome}
+                </p:column>
+
+				<p:column headerText="Ações">
+					<p:commandButton icon="pi pi-search" title="Detalhar"
+						process="@this" oncomplete="PF('detalheDialog').show()"
+						update=":formDetalhe:detalhePanel" />
+					<p:commandButton icon="pi pi-pencil" title="Editar"
+						action="#{usuarioController.prepararEdicao}"
+						update=":formCadastro" oncomplete="PF('cadastroDialog').show()" />
+					<p:commandButton icon="pi pi-trash" title="Excluir"
+						action="#{usuarioController.excluir}"
+						update=":formPesquisa:tabelaUsuarios" />
+				</p:column>
+			</p:dataTable>
 		</p:panel>
-		<p:dataTable id="tabelaUsuarios" value="#{usuarioController.usuarios}"
-			var="usuario">
-			<p:column headerText="Nome">
-				<h:outputText value="#{usuario.nome}" />
-			</p:column>
-			<p:column headerText="CPF">
-				<h:outputText value="#{usuario.cpf}" />
-			</p:column>
-			<p:column headerText="Ações">
-				<p:commandButton value="Detalhar"
-					actionListener="#{usuarioController.prepararDetalhe(usuario)}"
-					oncomplete="PF('detalheDialog').show()" update=":formDetalhe" />
-				<p:commandButton value="Editar"
-					action="#{usuarioController.editar(usuario)}"
-					update=":formCadastro" />
-				<p:commandButton value="Excluir"
-					action="#{usuarioController.excluir(usuario)}"
-					update=":formPesquisa:tabelaUsuarios" />
-			</p:column>
-		</p:dataTable>
 	</h:form>
-	 -->
-	<h:form id="formDetalhe">
-		<p:dialog header="Detalhes do Usuário" widgetVar="detalheDialog"
-			modal="true" resizable="false" width="300">
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Nome:" />
-				<h:outputText value="#{usuarioController.usuarioSelecionado.nome}" />
 
-				<h:outputLabel value="Email:" />
-				<h:outputText value="#{usuarioController.usuarioSelecionado.email}" />
+	<p:dialog header="Detalhes do Usuário" widgetVar="detalheDialog"
+		modal="true" height="300">
+		<h:form id="formDetalhe">
+			<p:panelGrid id="detalhePanel" columns="2">
+				<p:outputLabel value="Nome:" />
+				<p:outputLabel value="#{usuarioController.usuarioSelecionado.nome}" />
 
-				<h:outputLabel value="CPF:" />
-				<h:outputText value="#{usuarioController.usuarioSelecionado.cpf}" />
+				<p:outputLabel value="CPF:" />
+				<p:outputLabel value="#{usuarioController.usuarioSelecionado.cpf}" />
 
-				<h:outputLabel value="Perfil:" />
-				<h:outputText
-					value="#{usuarioController.usuarioSelecionado.perfil.tipo}" />
+				<p:outputLabel value="Email:" />
+				<p:outputLabel value="#{usuarioController.usuarioSelecionado.email}" />
 
-				<h:outputLabel value="Endereços:" />
-				<ui:repeat value="#{usuarioController.usuarioSelecionado.enderecos}"
+				<p:outputLabel value="Perfil:" />
+				<p:outputLabel
+					value="#{usuarioController.usuarioSelecionado.perfil.nome}" />
+
+				<p:outputLabel value="Endereços:" />
+				<p:dataList
+					value="#{usuarioController.usuarioSelecionado.enderecos}"
 					var="endereco">
-					<h:outputText value="#{endereco.rua}, #{endereco.cidade}" />
-					<br />
-				</ui:repeat>
-			</h:panelGrid>
-		</p:dialog>
-	</h:form>
+                    #{endereco.rua}, #{endereco.cidade} - #{endereco.estado} - #{endereco.cep}
+                </p:dataList>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>

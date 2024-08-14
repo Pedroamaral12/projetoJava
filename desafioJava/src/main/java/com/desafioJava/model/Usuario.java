@@ -2,8 +2,10 @@ package com.desafioJava.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Date;
 
 @Entity
+@Table(name = "Usuario")
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,8 +15,11 @@ public class Usuario {
 	private String email;
 	private String cpf;
 
-	@ManyToOne
-	@JoinColumn(name = "perfil_id")
+	@Temporal(TemporalType.DATE)
+	private Date dataCadastro;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Perfil perfil;
 
 	@ManyToMany
@@ -67,6 +72,14 @@ public class Usuario {
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 }

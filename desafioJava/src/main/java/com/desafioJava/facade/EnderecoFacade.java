@@ -9,10 +9,26 @@ public class EnderecoFacade {
 	private EnderecoService enderecoService;
 
 	public EnderecoFacade() {
-		enderecoService = new EnderecoService();
+		this.enderecoService = new EnderecoService();
 	}
 
-	public List<Endereco> buscarTodosEnderecos() {
-		return enderecoService.buscarTodosEnderecos();
+	public void salvar(Endereco endereco) {
+		enderecoService.salvar(endereco);
+	}
+
+	public void alterar(Endereco endereco) {
+		enderecoService.alterar(endereco);
+	}
+
+	public void excluir(Endereco endereco) {
+		enderecoService.excluir(endereco);
+	}
+
+	public Endereco buscarPorId(Long id) {
+		return enderecoService.buscarPorId(id);
+	}
+
+	public List<Endereco> buscarTodos() {
+		return enderecoService.buscarTodos();
 	}
 }

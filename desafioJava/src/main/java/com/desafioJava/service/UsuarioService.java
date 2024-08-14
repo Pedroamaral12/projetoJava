@@ -3,6 +3,7 @@ package com.desafioJava.service;
 import com.desafioJava.dao.UsuarioDAO;
 import com.desafioJava.model.Usuario;
 
+import java.util.Date;
 import java.util.List;
 
 public class UsuarioService {
@@ -30,5 +31,13 @@ public class UsuarioService {
 
 	public List<Usuario> buscarTodos() {
 		return usuarioDAO.buscarTodos();
+	}
+
+	public List<Usuario> buscarPorNome(String nome) {
+		return usuarioDAO.buscarPorNome(nome);
+	}
+
+	public List<Usuario> buscarComFiltros(String nome, String cpf, Date dataInicio, Date dataFim) {
+		return usuarioDAO.buscarComFiltros(nome, cpf, dataInicio, dataFim);
 	}
 }

@@ -3,6 +3,7 @@ package com.desafioJava.facade;
 import com.desafioJava.model.Usuario;
 import com.desafioJava.service.UsuarioService;
 
+import java.util.Date;
 import java.util.List;
 
 public class UsuarioFacade {
@@ -12,15 +13,15 @@ public class UsuarioFacade {
 		this.usuarioService = new UsuarioService();
 	}
 
-	public void salvarUsuario(Usuario usuario) {
+	public void salvar(Usuario usuario) {
 		usuarioService.salvar(usuario);
 	}
 
-	public void alterarUsuario(Usuario usuario) {
+	public void alterar(Usuario usuario) {
 		usuarioService.alterar(usuario);
 	}
 
-	public void excluirUsuario(Usuario usuario) {
+	public void excluir(Usuario usuario) {
 		usuarioService.excluir(usuario);
 	}
 
@@ -30,5 +31,13 @@ public class UsuarioFacade {
 
 	public List<Usuario> buscarTodos() {
 		return usuarioService.buscarTodos();
+	}
+
+	public List<Usuario> buscarPorNome(String nome) {
+		return usuarioService.buscarPorNome(nome);
+	}
+
+	public List<Usuario> buscarComFiltros(String nome, String cpf, Date dataInicio, Date dataFim) {
+		return usuarioService.buscarComFiltros(nome, cpf, dataInicio, dataFim);
 	}
 }

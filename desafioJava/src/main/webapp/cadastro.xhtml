@@ -1,69 +1,89 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	xmlns:p="http://primefaces.org/ui" xmlns:f="jakarta.faces.core">
 <h:head>
 	<title>Cadastro de Usuário</title>
 </h:head>
-<h:body>
-	<h:form enctype="multipart/form-data">
-		<p:fileUpload value="#{usuarioController.file}" mode="advanced"
-			dragDropSupport="false" update="messages" sizeLimit="1048576"
-			fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-		<p:commandButton value="Salvar" action="#{usuarioController.salvar}"
-			ajax="false" />
-		<p:messages id="messages" showDetail="true" autoUpdate="true" />
-	</h:form>
+<h:body
+	style="display: flex;
+    justify-content: center;
+    margin-top: 100px;">
 	<h:form id="formCadastro">
 		<p:panel header="Cadastro de Usuário">
-			<h:panelGrid columns="2" cellpadding="5">
-				<h:outputLabel value="Nome:" />
-				<p:inputText value="#{usuarioController.usuario.nome}"
-					required="true" />
+			<p:panelGrid columns="2" style="margin-bottom:10px">
+				<p:outputLabel value="Nome:" />
+				<p:inputText id="nome" value="#{usuarioController.usuario.nome}" />
 
-				<h:outputLabel value="Email:" />
-				<p:inputText value="#{usuarioController.usuario.email}"
-					required="true" />
+				<p:outputLabel value="Email:" />
+				<p:inputText id="email" value="#{usuarioController.usuario.email}" />
 
-				<h:outputLabel value="CPF:" />
-				<p:inputText value="#{usuarioController.usuario.cpf}"
-					required="true" />
+				<p:outputLabel value="CPF:" />
+				<p:inputText id="cpf" value="#{usuarioController.usuario.cpf}" />
 
-				<h:outputLabel value="Perfil:" />
-				<p:selectOneMenu value="#{usuarioController.usuario.perfil}">
-					<f:selectItems value="#{usuarioController.perfis}" var="perfil"
-						itemValue="#{perfil}" itemLabel="#{perfil.tipo}" />
+				<p:outputLabel value="Perfil:" />
+				<p:selectOneMenu id="perfil"
+					value="#{usuarioController.usuario.perfil}">
+					<f:selectItem itemLabel="Selecione" itemValue="" />
+					<f:selectItems value="#{perfilController.perfis}" var="perfil"
+						itemLabel="#{perfil.descricao}" itemValue="#{perfil}" />
 				</p:selectOneMenu>
 
-				<h:outputLabel value="Endereços:" />
-				<h:panelGroup>
-					<ui:repeat value="#{usuarioController.usuario.enderecos}"
-						var="endereco">
-						<h:panelGrid columns="2" cellpadding="5">
-							<h:outputLabel value="Rua:" />
-							<p:inputText value="#{endereco.rua}" />
 
-							<h:outputLabel value="Cidade:" />
-							<p:inputText value="#{endereco.cidade}" />
-						</h:panelGrid>
-					</ui:repeat>
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel value="Nova Rua:" />
-						<p:inputText value="#{usuarioController.novoEndereco.rua}" />
+				<p:outputLabel value="Endereços:" />
+				<p:selectCheckboxMenu id="enderecos"
+					value="#{usuarioController.usuario.enderecos}"
+					label="Selecione um ou mais endereços">
+					<f:selectItems value="#{enderecoController.buscarTodos()}"
+						var="endereco"
+						itemLabel="#{endereco.rua}, #{endereco.cidade} - #{endereco.estado}"
+						itemValue="#{endereco}" />
+				</p:selectCheckboxMenu>
+			</p:panelGrid>
+			<section style="display: flex; justify-content: space-between;">
 
-						<h:outputLabel value="Nova Cidade:" />
-						<p:inputText value="#{usuarioController.novoEndereco.cidade}" />
-					</h:panelGrid>
-					<p:commandButton value="Adicionar Endereço"
-						action="#{usuarioController.adicionarEndereco}"
-						update=":formCadastro" />
-				</h:panelGroup>
-			</h:panelGrid>
-			<p:commandButton value="Salvar" action="#{usuarioController.salvar}"
-				update=":formCadastro" />
+				<div>
+					<p:commandButton value="Voltar" style="margin: 5px"
+						icon="pi pi-arrow-left" action="index" ajax="false" />
+					<p:commandButton value="Adicionar Novo Endereço"
+						style="margin: 5px" oncomplete="PF('dlgEndereco').show();"
+						update="formEndereco" icon="pi pi-plus" />
+				</div>
+				<div>
+					<p:commandButton value="Salvar" style="margin: 5px"
+						action="#{usuarioController.cadastrarUsuario()}" />
+				</div>
+
+			</section>
+
 		</p:panel>
 	</h:form>
+	<p:dialog header="Cadastro de Endereço" widgetVar="dlgEndereco"
+		modal="true" closable="false" resizable="false">
+		<h:form id="formEndereco">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Rua:" />
+				<p:inputText id="rua" value="#{enderecoController.endereco.rua}" />
+
+				<p:outputLabel value="Cidade:" />
+				<p:inputText id="cidade"
+					value="#{enderecoController.endereco.cidade}" />
+
+				<p:outputLabel value="Estado:" />
+				<p:inputText id="estado"
+					value="#{enderecoController.endereco.estado}" />
+
+				<p:outputLabel value="CEP:" />
+				<p:inputText id="cep" value="#{enderecoController.endereco.cep}" />
+			</p:panelGrid>
+
+			<p:commandButton value="Salvar Endereço" style="margin: 5px"
+				action="#{enderecoController.salvarEndereco}"
+				update="formCadastro:enderecos"
+				oncomplete="PF('dlgEndereco').hide();" icon="pi pi-check" />
+			<p:commandButton value="Cancelar" onclick="PF('dlgEndereco').hide();"
+				icon="pi pi-times" style="margin: 5px" />
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>

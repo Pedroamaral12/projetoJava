@@ -1,10 +1,10 @@
 package com.desafioJava.model;
 
+import jakarta.persistence.*;
 import java.util.List;
 
-import jakarta.persistence.*;
-
 @Entity
+@Table(name = "Endereco")
 public class Endereco {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +12,8 @@ public class Endereco {
 
 	private String rua;
 	private String cidade;
+	private String estado;
+	private String cep;
 
 	@ManyToMany(mappedBy = "enderecos")
 	private List<Usuario> usuarios;
@@ -38,6 +40,30 @@ public class Endereco {
 
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 }
