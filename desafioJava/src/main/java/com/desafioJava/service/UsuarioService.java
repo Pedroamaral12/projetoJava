@@ -1,6 +1,7 @@
 package com.desafioJava.service;
 
 import com.desafioJava.dao.UsuarioDAO;
+import com.desafioJava.model.Endereco;
 import com.desafioJava.model.Usuario;
 
 import java.util.Date;
@@ -36,6 +37,11 @@ public class UsuarioService {
 	public List<Usuario> buscarPorNome(String nome) {
 		return usuarioDAO.buscarPorNome(nome);
 	}
+	
+	public List<Endereco> buscarEnderecosPorUsuario(Long usuarioId) {
+	    return usuarioDAO.buscarEnderecosPorUsuario(usuarioId);
+	}
+
 
 	public List<Usuario> buscarComFiltros(String nome, String cpf, Date dataInicio, Date dataFim) {
 		return usuarioDAO.buscarComFiltros(nome, cpf, dataInicio, dataFim);

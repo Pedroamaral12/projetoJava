@@ -19,7 +19,8 @@
 				<p:inputText id="email" value="#{usuarioController.usuario.email}" />
 
 				<p:outputLabel value="CPF:" />
-				<p:inputText id="cpf" value="#{usuarioController.usuario.cpf}" />
+				<p:inputMask id="cpf" mask="999.999.999-99"
+					value="#{usuarioController.usuario.cpf}" />
 
 				<p:outputLabel value="Perfil:" />
 				<p:selectOneMenu id="perfil"
@@ -29,16 +30,20 @@
 						itemLabel="#{perfil.descricao}" itemValue="#{perfil}" />
 				</p:selectOneMenu>
 
-
 				<p:outputLabel value="Endereços:" />
 				<p:selectCheckboxMenu id="enderecos"
-					value="#{usuarioController.usuario.enderecos}"
-					label="Selecione um ou mais endereços">
-					<f:selectItems value="#{enderecoController.buscarTodos()}"
+					value="#{usuarioController.enderecosSelecinados}"
+					label="Selecione um ou mais endereços"
+					converter="#{enderecoConverter}" filter="true"
+					filterMatchMode="startsWith" filterNormalize="true" multiple="true"
+					scrollHeight="250" var="endereco" style="min-width: 15rem">
+					<f:selectItems value="#{enderecoController.todosEnderecos}"
 						var="endereco"
 						itemLabel="#{endereco.rua}, #{endereco.cidade} - #{endereco.estado}"
 						itemValue="#{endereco}" />
 				</p:selectCheckboxMenu>
+
+
 			</p:panelGrid>
 			<section style="display: flex; justify-content: space-between;">
 
@@ -51,7 +56,8 @@
 				</div>
 				<div>
 					<p:commandButton value="Salvar" style="margin: 5px"
-						action="#{usuarioController.cadastrarUsuario()}" />
+						action="#{usuarioController.cadastrarUsuario()}" update="@form"
+						process="@form" />
 				</div>
 
 			</section>
@@ -74,7 +80,8 @@
 					value="#{enderecoController.endereco.estado}" />
 
 				<p:outputLabel value="CEP:" />
-				<p:inputText id="cep" value="#{enderecoController.endereco.cep}" />
+				<p:inputMask id="cep" mask="99999-999"
+					value="#{enderecoController.endereco.cep}" />
 			</p:panelGrid>
 
 			<p:commandButton value="Salvar Endereço" style="margin: 5px"

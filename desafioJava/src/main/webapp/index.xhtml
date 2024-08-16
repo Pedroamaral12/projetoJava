@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:f="jakarta.faces.core">
 <h:head>
 	<title>Pesquisa de Usuários</title>
 </h:head>
@@ -16,7 +16,8 @@
 				<p:inputText id="nome" value="#{usuarioController.nomeFiltro}" />
 
 				<p:outputLabel value="CPF:" />
-				<p:inputText id="cpf" value="#{usuarioController.cpfFiltro}" />
+				<p:inputMask id="cpf" mask="999.999.999-99"
+					value="#{usuarioController.cpfFiltro}" />
 
 				<p:outputLabel value="Período de Cadastro:" />
 				<div></div>
@@ -28,25 +29,53 @@
 					label="Selecione a data de fim." alt="Selecione a data de fim."
 					pattern="dd/MM/yyyy" />
 			</p:panelGrid>
-			<section style="display: flex; justify-content: space-between;">
-				<div>
-					<p:commandButton value="Pesquisar" style="margin: 5px"
-						action="#{usuarioController.pesquisar}"
-						update=":formPesquisa:tabelaUsuarios" />
-					<p:commandButton value="Limpar" style="margin: 5px"
-						action="#{usuarioController.pesquisar}" update="@this" />
-				</div>
-				<div>
+			<section>
+
+				<p:commandButton value="Pesquisar" style="margin: 5px"
+					action="#{usuarioController.pesquisar}"
+					update=":formPesquisa:tabelaUsuarios" />
+
+				<p:commandButton value="Limpar" style="margin: 5px"
+					action="#{usuarioController.limparFiltros}" update=":formPesquisa" />
+
+			</section>
+			<p:toolbar
+				style="display: flex; justify-content: space-between; margin-top:10px">
+				<p:toolbarGroup>
+
+
 					<p:commandButton value="Cadastrar Usuário" style="margin: 5px"
 						icon="pi pi-plus" action="cadastro" ajax="false" />
-				</div>
-			</section>
+
+
+				</p:toolbarGroup>
+				<p:toolbarGroup>
+					<div style="display: flex; gap: 10px">
+
+						<p:commandButton icon="pi pi-search" title="Detalhar"
+							actionListener="#{usuarioController.prepararDetalhes()}"
+							oncomplete="PF('detalheDialog').show()"
+							update=":formDetalhe:detalhePanel" />
+
+
+						<p:commandButton icon="pi pi-pencil" title="Editar"
+							action="cadastro" ajax="false"
+							actionListener="#{usuarioController.prepararEdicao()}" />
+						<!-- oncomplete="PF('editarDialog').show()" -->
+
+
+						<p:commandButton icon="pi pi-trash" title="Excluir"
+							action="#{usuarioController.excluir()}"
+							update=":formPesquisa:tabelaUsuarios" />
+					</div>
+				</p:toolbarGroup>
+			</p:toolbar>
 			<p:dataTable id="tabelaUsuarios"
 				value="#{usuarioController.usuarios}" var="usuario"
-				selectionMode="single"
+				selectionMode="single" action="#{usuarioController.buscarTodos()}"
 				selection="#{usuarioController.usuarioSelecionado}"
-				rowKey="#{usuario.id}" paginator="true" rows="10"
-				emptyMessage="Nenhum usuário encontrado">
+				rowKey="#{usuario.id}" paginator="true" paginatorPosition="bottom"
+				rows="10" emptyMessage="Nenhum usuário encontrado">
 				<p:column headerText="Nome">
                     #{usuario.nome}
                 </p:column>
@@ -57,26 +86,14 @@
                     #{usuario.email}
                 </p:column>
 				<p:column headerText="Perfil">
-                    #{usuario.perfil.nome}
+                    #{usuario.perfil.descricao}
                 </p:column>
-
-				<p:column headerText="Ações">
-					<p:commandButton icon="pi pi-search" title="Detalhar"
-						process="@this" oncomplete="PF('detalheDialog').show()"
-						update=":formDetalhe:detalhePanel" />
-					<p:commandButton icon="pi pi-pencil" title="Editar"
-						action="#{usuarioController.prepararEdicao}"
-						update=":formCadastro" oncomplete="PF('cadastroDialog').show()" />
-					<p:commandButton icon="pi pi-trash" title="Excluir"
-						action="#{usuarioController.excluir}"
-						update=":formPesquisa:tabelaUsuarios" />
-				</p:column>
 			</p:dataTable>
 		</p:panel>
 	</h:form>
 
 	<p:dialog header="Detalhes do Usuário" widgetVar="detalheDialog"
-		modal="true" height="300">
+		modal="true" height="350">
 		<h:form id="formDetalhe">
 			<p:panelGrid id="detalhePanel" columns="2">
 				<p:outputLabel value="Nome:" />
@@ -90,7 +107,11 @@
 
 				<p:outputLabel value="Perfil:" />
 				<p:outputLabel
-					value="#{usuarioController.usuarioSelecionado.perfil.nome}" />
+					value="#{usuarioController.usuarioSelecionado.perfil.descricao}" />
+
+				<p:outputLabel value="Data de Cadastro" />
+				<p:outputLabel
+					value="#{usuarioController.usuarioSelecionado.dataCadastro}" />
 
 				<p:outputLabel value="Endereços:" />
 				<p:dataList
@@ -101,5 +122,58 @@
 			</p:panelGrid>
 		</h:form>
 	</p:dialog>
+
+	<!-- <p:dialog header="Editar Usuário" widgetVar="editarDialog" modal="true"
+		height="500px">
+
+		<h:form id="formCadastro">
+			<p:panel header="Cadastro de Usuário">
+				<p:panelGrid columns="2" style="margin-bottom:10px">
+					<p:outputLabel value="Nome:" />
+					<p:inputText id="nome" value="#{usuarioController.usuario.nome}" />
+
+					<p:outputLabel value="Email:" />
+					<p:inputText id="email" value="#{usuarioController.usuario.email}" />
+
+					<p:outputLabel value="CPF:" />
+					<p:inputText id="cpf" value="#{usuarioController.usuario.cpf}" />
+
+					<p:outputLabel value="Perfil:" />
+					<p:selectOneMenu id="perfil"
+						value="#{usuarioController.usuario.perfil}">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{perfilController.perfis}" var="perfil"
+							itemLabel="#{perfil.descricao}" itemValue="#{perfil}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Endereços:" />
+					<p:selectCheckboxMenu id="enderecos"
+						value="#{usuarioController.usuario.enderecos}"
+						label="Selecione um ou mais endereços">
+						<f:selectItems value="#{enderecoController.buscarTodos()}"
+							var="endereco"
+							itemLabel="#{endereco.rua}, #{endereco.cidade} - #{endereco.estado}"
+							itemValue="#{endereco}" />
+					</p:selectCheckboxMenu>
+				</p:panelGrid>
+				<section style="display: flex; justify-content: space-evenly;">
+
+
+					<p:commandButton value="Cancelar" style="margin: 5px"
+						oncomplete="PF('detalheDialog').hide()" ajax="false" />
+
+					<p:commandButton value="Salvar" style="margin: 5px"
+						action="#{usuarioController.cadastrarUsuario()}"
+						update=":formCadastro" />
+
+
+				</section>
+
+			</p:panel>
+		</h:form>
+
+	</p:dialog> -->
+
+
 </h:body>
 </html>

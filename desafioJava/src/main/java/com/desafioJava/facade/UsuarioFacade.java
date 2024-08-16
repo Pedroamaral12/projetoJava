@@ -1,5 +1,6 @@
 package com.desafioJava.facade;
 
+import com.desafioJava.model.Endereco;
 import com.desafioJava.model.Usuario;
 import com.desafioJava.service.UsuarioService;
 
@@ -35,6 +36,10 @@ public class UsuarioFacade {
 
 	public List<Usuario> buscarPorNome(String nome) {
 		return usuarioService.buscarPorNome(nome);
+	}
+
+	public List<Endereco> buscarEnderecosPorUsuario(Long id) {
+		return usuarioService.buscarEnderecosPorUsuario(id);
 	}
 
 	public List<Usuario> buscarComFiltros(String nome, String cpf, Date dataInicio, Date dataFim) {

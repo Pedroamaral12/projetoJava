@@ -2,6 +2,7 @@ package com.desafioJava.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -11,10 +12,15 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String nome;
+
 	private String email;
+
+	@Column(nullable = false)
 	private String cpf;
 
+	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataCadastro;
 
@@ -22,7 +28,7 @@ public class Usuario {
 	@Column(nullable = false)
 	private Perfil perfil;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "usuario_endereco", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "endereco_id"))
 	private List<Endereco> enderecos;
 

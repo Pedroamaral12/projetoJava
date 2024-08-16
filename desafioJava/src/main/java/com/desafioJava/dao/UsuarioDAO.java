@@ -1,5 +1,6 @@
 package com.desafioJava.dao;
 
+import com.desafioJava.model.Endereco;
 import com.desafioJava.model.Usuario;
 import com.desafioJava.util.HibernateUtil;
 import org.hibernate.Session;
@@ -16,16 +17,18 @@ import java.util.List;
 public class UsuarioDAO {
 
 	public void salvar(Usuario usuario) {
-		Transaction transaction = null;
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			session.save(usuario);
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
+		if (usuario.getNome() != null) {
+			Transaction transaction = null;
+			try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+				transaction = session.beginTransaction();
+				session.save(usuario);
+				transaction.commit();
+			} catch (Exception e) {
+				if (transaction != null) {
+					transaction.rollback();
+				}
+				e.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 	}
 
@@ -66,6 +69,14 @@ public class UsuarioDAO {
 	public List<Usuario> buscarTodos() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery("from Usuario", Usuario.class).getResultList();
+		}
+	}
+
+	public List<Endereco> buscarEnderecosPorUsuario(Long usuarioId) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session
+					.createQuery("select e from Endereco e join e.usuarios u where u.id = :usuarioId", Endereco.class)
+					.setParameter("usuarioId", usuarioId).getResultList();
 		}
 	}
 

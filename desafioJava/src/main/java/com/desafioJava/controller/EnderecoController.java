@@ -2,6 +2,8 @@ package com.desafioJava.controller;
 
 import com.desafioJava.facade.EnderecoFacade;
 import com.desafioJava.model.Endereco;
+
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -12,9 +14,15 @@ import java.util.List;
 @RequestScoped
 public class EnderecoController {
 	private Endereco endereco = new Endereco();
+	private List<Endereco> todosEnderecos;
 
 	@Inject
 	private EnderecoFacade enderecoFacade;
+
+	@PostConstruct
+	public void init() {
+		buscarTodos();
+	}
 
 	public void salvarEndereco() {
 		enderecoFacade.salvar(endereco);
@@ -34,7 +42,9 @@ public class EnderecoController {
 	}
 
 	public List<Endereco> buscarTodos() {
-		return enderecoFacade.buscarTodos();
+
+		todosEnderecos = enderecoFacade.buscarTodos();
+		return todosEnderecos;
 	}
 
 	public Endereco getEndereco() {
@@ -51,5 +61,13 @@ public class EnderecoController {
 
 	public void setEnderecoFacade(EnderecoFacade enderecoFacade) {
 		this.enderecoFacade = enderecoFacade;
+	}
+
+	public List<Endereco> getTodosEnderecos() {
+		return todosEnderecos;
+	}
+
+	public void setTodosEnderecos(List<Endereco> todosEnderecos) {
+		this.todosEnderecos = todosEnderecos;
 	}
 }
