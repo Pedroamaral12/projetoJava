@@ -18,6 +18,7 @@ public class EnderecoController {
 
 	@Inject
 	private EnderecoFacade enderecoFacade;
+	private Endereco enderecoSelecionado;
 
 	@PostConstruct
 	public void init() {
@@ -33,8 +34,9 @@ public class EnderecoController {
 		enderecoFacade.alterar(endereco);
 	}
 
-	public void excluir(Endereco endereco) {
-		enderecoFacade.excluir(endereco);
+	public void excluir() {
+		enderecoFacade.excluir(enderecoSelecionado);
+		buscarTodos();
 	}
 
 	public Endereco buscarPorId(Integer id) {
@@ -69,5 +71,13 @@ public class EnderecoController {
 
 	public void setTodosEnderecos(List<Endereco> todosEnderecos) {
 		this.todosEnderecos = todosEnderecos;
+	}
+
+	public Endereco getEnderecoSelecionado() {
+		return enderecoSelecionado;
+	}
+
+	public void setEnderecoSelecionado(Endereco enderecoSelecionado) {
+		this.enderecoSelecionado = enderecoSelecionado;
 	}
 }

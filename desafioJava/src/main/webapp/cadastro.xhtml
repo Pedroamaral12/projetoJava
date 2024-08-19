@@ -51,9 +51,8 @@
 				<div>
 					<p:commandButton value="Voltar" style="margin: 5px"
 						icon="pi pi-arrow-left" action="index" ajax="false" />
-					<p:commandButton value="Adicionar Novo Endereço"
-						style="margin: 5px" oncomplete="PF('dlgEndereco').show();"
-						update="formEndereco" icon="pi pi-plus" />
+					<p:commandButton value="Gerenciar Endereços" style="margin: 5px"
+						oncomplete="PF('dlgEndereco').show();" update="formEndereco" />
 				</div>
 				<div>
 					<p:commandButton value="Salvar" style="margin: 5px"
@@ -65,7 +64,7 @@
 
 		</p:panel>
 	</h:form>
-	<p:dialog header="Cadastro de Endereço" widgetVar="dlgEndereco"
+	<p:dialog header="Gerenciar Endereços" widgetVar="dlgEndereco"
 		modal="true" closable="false" resizable="false">
 		<h:form id="formEndereco">
 			<p:panelGrid columns="2">
@@ -85,12 +84,48 @@
 					value="#{enderecoController.endereco.cep}" />
 			</p:panelGrid>
 
-			<p:commandButton value="Salvar Endereço" style="margin: 5px"
-				action="#{enderecoController.salvarEndereco}"
-				update="formCadastro:enderecos"
-				oncomplete="PF('dlgEndereco').hide();" icon="pi pi-check" />
-			<p:commandButton value="Cancelar" onclick="PF('dlgEndereco').hide();"
-				icon="pi pi-times" style="margin: 5px" />
+			<section style="display: flex; justify-content: space-between;">
+
+				<p:commandButton value="Salvar Novo Endereço" style="margin: 5px"
+					action="#{enderecoController.salvarEndereco}"
+					update="formCadastro:enderecos"
+					oncomplete="PF('dlgEndereco').hide(); location.reload();"
+					icon="pi pi-plus" />
+				<p:commandButton value="Fechar"
+					onclick="PF('dlgEndereco').hide();" icon="pi pi-times"
+					style="margin: 5px" />
+			</section>
+			<p:toolbar
+				style="display: flex; justify-content: flex-end; margin-top:10px">
+				<p:toolbarGroup>
+					<div style="display: flex; gap: 10px">
+
+						<p:commandButton icon="pi pi-trash" title="Excluir"
+							action="#{enderecoController.excluir()}"
+							update=":formEndereco:tabelaEnderecos" />
+					</div>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="tabelaEnderecos"
+				value="#{enderecoController.todosEnderecos}" var="endereco"
+				selectionMode="single" action="#{enderecoController.buscarTodos()}"
+				selection="#{enderecoController.enderecoSelecionado}"
+				rowKey="#{endereco.id}" paginator="true" paginatorPosition="bottom"
+				rows="10" emptyMessage="Nenhum endereço cadastrado">
+
+				<p:column headerText="Rua">
+                    #{endereco.rua}
+                </p:column>
+				<p:column headerText="Cidade">
+                    #{endereco.cidade}
+                </p:column>
+				<p:column headerText="Estado">
+                    #{endereco.estado}
+                </p:column>
+				<p:column headerText="CEP">
+                    #{endereco.cep}
+                </p:column>
+			</p:dataTable>
 		</h:form>
 	</p:dialog>
 </h:body>
