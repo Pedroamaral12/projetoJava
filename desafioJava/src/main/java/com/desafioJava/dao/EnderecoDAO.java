@@ -51,7 +51,7 @@ public class EnderecoDAO {
 		}
 	}
 
-	public Endereco buscarPorId(Long id) {
+	public Endereco buscarPorId(Integer id) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.get(Endereco.class, id);
 		}

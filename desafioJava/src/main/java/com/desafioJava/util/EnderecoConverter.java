@@ -25,7 +25,7 @@ public class EnderecoConverter implements Converter<Endereco> {
 			return null;
 		}
 		try {
-			Long id = Long.valueOf(value);
+			Integer id = Integer.valueOf(value);
 			return enderecoFacade.buscarPorId(id);
 		} catch (NumberFormatException e) {
 			throw new ConverterException("Erro de conversão: o valor não é um ID de endereço válido.", e);

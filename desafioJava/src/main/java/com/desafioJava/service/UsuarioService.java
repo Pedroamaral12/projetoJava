@@ -26,7 +26,7 @@ public class UsuarioService {
 		usuarioDAO.excluir(usuario);
 	}
 
-	public Usuario buscarPorId(Long id) {
+	public Usuario buscarPorId(Integer id) {
 		return usuarioDAO.buscarPorId(id);
 	}
 
@@ -38,7 +38,7 @@ public class UsuarioService {
 		return usuarioDAO.buscarPorNome(nome);
 	}
 	
-	public List<Endereco> buscarEnderecosPorUsuario(Long usuarioId) {
+	public List<Endereco> buscarEnderecosPorUsuario(Integer usuarioId) {
 	    return usuarioDAO.buscarEnderecosPorUsuario(usuarioId);
 	}
 

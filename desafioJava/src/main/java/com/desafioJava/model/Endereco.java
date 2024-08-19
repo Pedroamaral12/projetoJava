@@ -8,21 +8,21 @@ import java.util.List;
 public class Endereco {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	private String rua;
 	private String cidade;
 	private String estado;
 	private String cep;
 
-	@ManyToMany(mappedBy = "enderecos")
+	@ManyToMany(mappedBy = "enderecos", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Usuario> usuarios;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

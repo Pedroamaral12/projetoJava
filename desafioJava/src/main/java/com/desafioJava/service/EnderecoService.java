@@ -24,7 +24,7 @@ public class EnderecoService {
 		enderecoDAO.excluir(endereco);
 	}
 
-	public Endereco buscarPorId(Long id) {
+	public Endereco buscarPorId(Integer id) {
 		return enderecoDAO.buscarPorId(id);
 	}
 

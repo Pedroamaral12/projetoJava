@@ -76,6 +76,10 @@
 				selection="#{usuarioController.usuarioSelecionado}"
 				rowKey="#{usuario.id}" paginator="true" paginatorPosition="bottom"
 				rows="10" emptyMessage="Nenhum usuário encontrado">
+
+				<p:column headerText="Nome">
+                    #{usuario.nome}
+                </p:column>
 				<p:column headerText="Nome">
                     #{usuario.nome}
                 </p:column>

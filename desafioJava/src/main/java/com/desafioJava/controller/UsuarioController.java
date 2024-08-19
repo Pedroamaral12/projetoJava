@@ -1,5 +1,6 @@
 package com.desafioJava.controller;
 
+import com.desafioJava.facade.EnderecoFacade;
 import com.desafioJava.facade.UsuarioFacade;
 import com.desafioJava.model.Endereco;
 import com.desafioJava.model.Usuario;
@@ -21,13 +22,19 @@ public class UsuarioController {
 	@Inject
 	private UsuarioFacade usuarioFacade;
 
+	@Inject
+	private EnderecoFacade enderecoFacade;
+
 	private String nomeFiltro;
 	private String cpfFiltro;
 	private Date dataInicioFiltro;
 	private Date dataFimFiltro;
 
+	private Integer id;
+
 	private List<Usuario> usuarios;
 	private List<Endereco> enderecosSelecinados = new ArrayList<>();
+	private List<Integer> idEnderecosSelecinados = new ArrayList<>();
 	private Usuario usuarioSelecionado;
 
 	@PostConstruct
@@ -55,31 +62,43 @@ public class UsuarioController {
 
 	public void prepararEdicao() {
 		if (usuarioSelecionado != null) {
-			this.usuario = usuarioSelecionado;
-			this.usuario.setId(usuarioSelecionado.getId());
-			this.usuario.setEnderecos(usuarioFacade.buscarEnderecosPorUsuario(usuarioSelecionado.getId()));
+			this.usuario = usuarioFacade.buscarPorId(usuarioSelecionado.getId());
+			this.id = usuario.getId();
 		}
 	}
 
 	public void prepararDetalhes() {
 		if (usuarioSelecionado != null) {
 			usuarioSelecionado.setEnderecos(usuarioFacade.buscarEnderecosPorUsuario(usuarioSelecionado.getId()));
-			System.out.println("Endereços encontrados: " + usuarioSelecionado.getEnderecos().size());
+
 		}
 	}
 
 	public void cadastrarUsuario() {
 
 		this.usuario.setDataCadastro(new Date());
-		this.usuario.setEnderecos(enderecosSelecinados);
-		if (this.usuario.getId() != null) {
+		enderecosSelecinados.clear();
+		for (Integer id : idEnderecosSelecinados) {
 
-			usuarioFacade.alterar(usuario);
+			Endereco endereco = enderecoFacade.buscarPorId(id);
+			enderecosSelecinados.add(endereco);
+		}
 
-		} else {
+		usuario.setEnderecos(enderecosSelecinados);
+		String nome = usuario.getNome();
 
-			usuarioFacade.salvar(this.usuario);
-			limparFormulario();
+		if (nome != null && !nome.isEmpty()) {
+			if (usuario.getId() != null) {
+
+				usuarioFacade.alterar(usuario);
+				limparFormulario();
+
+			} else {
+
+				usuarioFacade.salvar(usuario);
+				limparFormulario();
+
+			}
 		}
 
 	}
@@ -90,6 +109,7 @@ public class UsuarioController {
 	}
 
 	private void limparFormulario() {
+		idEnderecosSelecinados = new ArrayList<>();
 		usuario = new Usuario();
 	}
 
@@ -157,12 +177,36 @@ public class UsuarioController {
 		this.usuarioSelecionado = usuarioSelecionado;
 	}
 
+	public EnderecoFacade getEnderecoFacade() {
+		return enderecoFacade;
+	}
+
+	public void setEnderecoFacade(EnderecoFacade enderecoFacade) {
+		this.enderecoFacade = enderecoFacade;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public List<Endereco> getEnderecosSelecinados() {
 		return enderecosSelecinados;
 	}
 
 	public void setEnderecosSelecinados(List<Endereco> enderecosSelecinados) {
 		this.enderecosSelecinados = enderecosSelecinados;
+	}
+
+	public List<Integer> getIdEnderecosSelecinados() {
+		return idEnderecosSelecinados;
+	}
+
+	public void setIdEnderecosSelecinados(List<Integer> idEnderecosSelecinados) {
+		this.idEnderecosSelecinados = idEnderecosSelecinados;
 	}
 
 }

@@ -13,38 +13,39 @@
 		<p:panel header="Cadastro de Usuário">
 			<p:panelGrid columns="2" style="margin-bottom:10px">
 				<p:outputLabel value="Nome:" />
-				<p:inputText id="nome" value="#{usuarioController.usuario.nome}" />
+				<p:inputText id="nome" value="#{usuarioController.usuario.nome}"
+					label="Insira seu nome." />
 
 				<p:outputLabel value="Email:" />
-				<p:inputText id="email" value="#{usuarioController.usuario.email}" />
+				<p:inputText id="email" value="#{usuarioController.usuario.email}"
+					label="Insira seu email." />
 
 				<p:outputLabel value="CPF:" />
-				<p:inputMask id="cpf" mask="999.999.999-99"
+				<p:inputMask id="cpf" mask="999.999.999-99" label="Insira seu CPF."
 					value="#{usuarioController.usuario.cpf}" />
 
 				<p:outputLabel value="Perfil:" />
 				<p:selectOneMenu id="perfil"
 					value="#{usuarioController.usuario.perfil}">
-					<f:selectItem itemLabel="Selecione" itemValue="" />
+					<f:selectItem itemLabel="Selecione um perfil." itemValue="" />
 					<f:selectItems value="#{perfilController.perfis}" var="perfil"
 						itemLabel="#{perfil.descricao}" itemValue="#{perfil}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Endereços:" />
 				<p:selectCheckboxMenu id="enderecos"
-					value="#{usuarioController.enderecosSelecinados}"
-					label="Selecione um ou mais endereços"
-					converter="#{enderecoConverter}" filter="true"
+					value="#{usuarioController.idEnderecosSelecinados}"
+					label="Selecione um ou mais endereços." filter="true"
 					filterMatchMode="startsWith" filterNormalize="true" multiple="true"
 					scrollHeight="250" var="endereco" style="min-width: 15rem">
 					<f:selectItems value="#{enderecoController.todosEnderecos}"
 						var="endereco"
 						itemLabel="#{endereco.rua}, #{endereco.cidade} - #{endereco.estado}"
-						itemValue="#{endereco}" />
+						itemValue="#{endereco.id}" />
 				</p:selectCheckboxMenu>
-
-
 			</p:panelGrid>
+			<p:inputText value="#{usuarioController.usuario.id}" id="usuarioId"
+				type="hidden" />
 			<section style="display: flex; justify-content: space-between;">
 
 				<div>

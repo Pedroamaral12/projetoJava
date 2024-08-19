@@ -60,7 +60,7 @@ public class UsuarioDAO {
 		}
 	}
 
-	public Usuario buscarPorId(Long id) {
+	public Usuario buscarPorId(Integer id) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.get(Usuario.class, id);
 		}
@@ -72,7 +72,7 @@ public class UsuarioDAO {
 		}
 	}
 
-	public List<Endereco> buscarEnderecosPorUsuario(Long usuarioId) {
+	public List<Endereco> buscarEnderecosPorUsuario(Integer usuarioId) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session
 					.createQuery("select e from Endereco e join e.usuarios u where u.id = :usuarioId", Endereco.class)

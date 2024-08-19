@@ -26,7 +26,7 @@ public class UsuarioFacade {
 		usuarioService.excluir(usuario);
 	}
 
-	public Usuario buscarPorId(Long id) {
+	public Usuario buscarPorId(Integer id) {
 		return usuarioService.buscarPorId(id);
 	}
 
@@ -38,7 +38,7 @@ public class UsuarioFacade {
 		return usuarioService.buscarPorNome(nome);
 	}
 
-	public List<Endereco> buscarEnderecosPorUsuario(Long id) {
+	public List<Endereco> buscarEnderecosPorUsuario(Integer id) {
 		return usuarioService.buscarEnderecosPorUsuario(id);
 	}
 
