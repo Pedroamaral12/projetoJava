@@ -123,4 +123,5 @@ public class UsuarioDAO {
 			return session.createQuery(criteriaQuery).getResultList();
 		}
 	}
+
 }

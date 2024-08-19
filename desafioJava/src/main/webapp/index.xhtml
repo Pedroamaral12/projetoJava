@@ -16,8 +16,7 @@
 				<p:inputText id="nome" value="#{usuarioController.nomeFiltro}" />
 
 				<p:outputLabel value="CPF:" />
-				<p:inputMask id="cpf" mask="999.999.999-99"
-					value="#{usuarioController.cpfFiltro}" />
+				<p:inputText id="cpf" value="#{usuarioController.cpfFiltro}" />
 
 				<p:outputLabel value="Período de Cadastro:" />
 				<div></div>
@@ -43,10 +42,8 @@
 				style="display: flex; justify-content: space-between; margin-top:10px">
 				<p:toolbarGroup>
 
-
 					<p:commandButton value="Cadastrar Usuário" style="margin: 5px"
 						icon="pi pi-plus" action="cadastro" ajax="false" />
-
 
 				</p:toolbarGroup>
 				<p:toolbarGroup>
@@ -57,12 +54,9 @@
 							oncomplete="PF('detalheDialog').show()"
 							update=":formDetalhe:detalhePanel" />
 
-
 						<p:commandButton icon="pi pi-pencil" title="Editar"
 							action="cadastro" ajax="false"
 							actionListener="#{usuarioController.prepararEdicao()}" />
-						<!-- oncomplete="PF('editarDialog').show()" -->
-
 
 						<p:commandButton icon="pi pi-trash" title="Excluir"
 							action="#{usuarioController.excluir()}"
@@ -77,9 +71,6 @@
 				rowKey="#{usuario.id}" paginator="true" paginatorPosition="bottom"
 				rows="10" emptyMessage="Nenhum usuário encontrado">
 
-				<p:column headerText="Nome">
-                    #{usuario.nome}
-                </p:column>
 				<p:column headerText="Nome">
                     #{usuario.nome}
                 </p:column>
@@ -114,8 +105,7 @@
 					value="#{usuarioController.usuarioSelecionado.perfil.descricao}" />
 
 				<p:outputLabel value="Data de Cadastro" />
-				<p:outputLabel
-					value="#{usuarioController.usuarioSelecionado.dataCadastro}" />
+				<p:outputLabel value="#{usuarioController.dataFormatada}" />
 
 				<p:outputLabel value="Endereços:" />
 				<p:dataList
@@ -126,58 +116,5 @@
 			</p:panelGrid>
 		</h:form>
 	</p:dialog>
-
-	<!-- <p:dialog header="Editar Usuário" widgetVar="editarDialog" modal="true"
-		height="500px">
-
-		<h:form id="formCadastro">
-			<p:panel header="Cadastro de Usuário">
-				<p:panelGrid columns="2" style="margin-bottom:10px">
-					<p:outputLabel value="Nome:" />
-					<p:inputText id="nome" value="#{usuarioController.usuario.nome}" />
-
-					<p:outputLabel value="Email:" />
-					<p:inputText id="email" value="#{usuarioController.usuario.email}" />
-
-					<p:outputLabel value="CPF:" />
-					<p:inputText id="cpf" value="#{usuarioController.usuario.cpf}" />
-
-					<p:outputLabel value="Perfil:" />
-					<p:selectOneMenu id="perfil"
-						value="#{usuarioController.usuario.perfil}">
-						<f:selectItem itemLabel="Selecione" itemValue="" />
-						<f:selectItems value="#{perfilController.perfis}" var="perfil"
-							itemLabel="#{perfil.descricao}" itemValue="#{perfil}" />
-					</p:selectOneMenu>
-
-					<p:outputLabel value="Endereços:" />
-					<p:selectCheckboxMenu id="enderecos"
-						value="#{usuarioController.usuario.enderecos}"
-						label="Selecione um ou mais endereços">
-						<f:selectItems value="#{enderecoController.buscarTodos()}"
-							var="endereco"
-							itemLabel="#{endereco.rua}, #{endereco.cidade} - #{endereco.estado}"
-							itemValue="#{endereco}" />
-					</p:selectCheckboxMenu>
-				</p:panelGrid>
-				<section style="display: flex; justify-content: space-evenly;">
-
-
-					<p:commandButton value="Cancelar" style="margin: 5px"
-						oncomplete="PF('detalheDialog').hide()" ajax="false" />
-
-					<p:commandButton value="Salvar" style="margin: 5px"
-						action="#{usuarioController.cadastrarUsuario()}"
-						update=":formCadastro" />
-
-
-				</section>
-
-			</p:panel>
-		</h:form>
-
-	</p:dialog> -->
-
-
 </h:body>
 </html>

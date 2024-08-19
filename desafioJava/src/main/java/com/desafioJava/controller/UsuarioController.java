@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,7 @@ public class UsuarioController {
 	private Date dataFimFiltro;
 
 	private Integer id;
+	private String dataFormatada;
 
 	private List<Usuario> usuarios;
 	private List<Endereco> enderecosSelecinados = new ArrayList<>();
@@ -68,10 +70,20 @@ public class UsuarioController {
 	}
 
 	public void prepararDetalhes() {
+		dataFormatada = "";
 		if (usuarioSelecionado != null) {
 			usuarioSelecionado.setEnderecos(usuarioFacade.buscarEnderecosPorUsuario(usuarioSelecionado.getId()));
+			formatDataCadastro();
 
 		}
+	}
+
+	public void formatDataCadastro() {
+		if (usuarioSelecionado != null && usuarioSelecionado.getDataCadastro() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			dataFormatada = sdf.format(usuarioSelecionado.getDataCadastro());
+		}
+
 	}
 
 	public void cadastrarUsuario() {
@@ -207,6 +219,14 @@ public class UsuarioController {
 
 	public void setIdEnderecosSelecinados(List<Integer> idEnderecosSelecinados) {
 		this.idEnderecosSelecinados = idEnderecosSelecinados;
+	}
+
+	public String getDataFormatada() {
+		return dataFormatada;
+	}
+
+	public void setDataFormatada(String dataFormatada) {
+		this.dataFormatada = dataFormatada;
 	}
 
 }
