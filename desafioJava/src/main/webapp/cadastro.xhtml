@@ -10,28 +10,31 @@
     justify-content: center;
     margin-top: 100px;">
 	<h:form id="formCadastro">
+		<div
+			style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px">
+			<p:message for="nome" />
+			<p:message for="cpf" />
+			<p:message for="perfil" />
+		</div>
 		<p:panel header="Cadastro de Usuário">
 			<p:panelGrid columns="2" style="margin-bottom:10px">
 				<p:outputLabel value="Nome:" />
 				<p:inputText id="nome" value="#{usuarioController.usuario.nome}"
-					label="Insira seu nome." />
-
+					label="Insira seu nome." required="true" />
 				<p:outputLabel value="Email:" />
 				<p:inputText id="email" value="#{usuarioController.usuario.email}"
 					label="Insira seu email." />
-
 				<p:outputLabel value="CPF:" />
 				<p:inputMask id="cpf" mask="999.999.999-99" label="Insira seu CPF."
-					value="#{usuarioController.usuario.cpf}" />
-
+					value="#{usuarioController.usuario.cpf}" required="true" />
 				<p:outputLabel value="Perfil:" />
-				<p:selectOneMenu id="perfil"
+				<p:selectOneMenu id="perfil" required="true"
+					label="Insira seu nome."
 					value="#{usuarioController.usuario.perfil}">
 					<f:selectItem itemLabel="Selecione um perfil." itemValue="" />
 					<f:selectItems value="#{perfilController.perfis}" var="perfil"
 						itemLabel="#{perfil.descricao}" itemValue="#{perfil}" />
 				</p:selectOneMenu>
-
 				<p:outputLabel value="Endereços:" />
 				<p:selectCheckboxMenu id="enderecos"
 					value="#{usuarioController.idEnderecosSelecinados}"
@@ -47,10 +50,10 @@
 			<p:inputText value="#{usuarioController.usuario.id}" id="usuarioId"
 				type="hidden" />
 			<section style="display: flex; justify-content: space-between;">
-
 				<div>
 					<p:commandButton value="Voltar" style="margin: 5px"
-						icon="pi pi-arrow-left" action="index" ajax="false" />
+						icon="pi pi-arrow-left" action="index" ajax="false"
+						immediate="true" />
 					<p:commandButton value="Gerenciar Endereços" style="margin: 5px"
 						oncomplete="PF('dlgEndereco').show();" update="formEndereco" />
 				</div>
@@ -59,14 +62,16 @@
 						action="#{usuarioController.cadastrarUsuario()}" update="@form"
 						process="@form" />
 				</div>
-
 			</section>
-
 		</p:panel>
 	</h:form>
 	<p:dialog header="Gerenciar Endereços" widgetVar="dlgEndereco"
 		modal="true" closable="false" resizable="false">
 		<h:form id="formEndereco">
+			<div style="display: flex; gap: 5px;">
+				<p:message for="estado" />
+				<p:message for="cep" />
+			</div>
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Rua:" />
 				<p:inputText id="rua" value="#{enderecoController.endereco.rua}" />
@@ -77,13 +82,12 @@
 
 				<p:outputLabel value="Estado:" />
 				<p:inputText id="estado"
-					value="#{enderecoController.endereco.estado}" />
+					value="#{enderecoController.endereco.estado}" required="true" />
 
 				<p:outputLabel value="CEP:" />
 				<p:inputMask id="cep" mask="99999-999"
-					value="#{enderecoController.endereco.cep}" />
+					value="#{enderecoController.endereco.cep}" required="true" />
 			</p:panelGrid>
-
 			<section style="display: flex; justify-content: space-between;">
 
 				<p:commandButton value="Salvar Novo Endereço" style="margin: 5px"
@@ -91,9 +95,8 @@
 					update="formCadastro:enderecos"
 					oncomplete="PF('dlgEndereco').hide(); location.reload();"
 					icon="pi pi-plus" />
-				<p:commandButton value="Fechar"
-					onclick="PF('dlgEndereco').hide();" icon="pi pi-times"
-					style="margin: 5px" />
+				<p:commandButton value="Fechar" onclick="PF('dlgEndereco').hide();"
+					icon="pi pi-times" style="margin: 5px" />
 			</section>
 			<p:toolbar
 				style="display: flex; justify-content: flex-end; margin-top:10px">

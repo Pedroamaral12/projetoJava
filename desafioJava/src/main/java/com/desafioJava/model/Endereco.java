@@ -11,8 +11,13 @@ public class Endereco {
 	private Integer id;
 
 	private String rua;
+
 	private String cidade;
+
+	@Column(nullable = false)
 	private String estado;
+
+	@Column(nullable = false)
 	private String cep;
 
 	@ManyToMany(mappedBy = "enderecos", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
